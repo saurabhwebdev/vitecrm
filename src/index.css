@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: Inter, system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+}
+
+/* Custom styles for loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Toast styles */
+.toast-success {
+  @apply bg-white border-l-4 border-green-500 text-gray-900 shadow-lg;
+}
+
+.toast-error {
+  @apply bg-white border-l-4 border-red-500 text-gray-900 shadow-lg;
+}
+
+.toast-loading {
+  @apply bg-white border-l-4 border-blue-500 text-gray-900 shadow-lg;
+}
+
+.toast-custom {
+  @apply bg-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 min-h-[64px] border border-gray-100;
+}

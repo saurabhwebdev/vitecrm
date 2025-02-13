@@ -1,0 +1,174 @@
+---
+description: 
+globs: 
+---
+## **🔒 General AI Behavior Rules**  
+✅ **Allow AI for:**  
+- Syntax fixes & minor refactoring  
+- Code optimizations (e.g., `useMemo`, better imports)  
+- Performance improvements  
+
+❌ **Disallow AI from:**  
+- Modifying the **project structure or folder hierarchy**  
+- Changing the **module development sequence**  
+- Auto-generating Firestore security rules or schemas  
+- Suggesting **third-party UI libraries** (only use predefined ones)  
+- Generating **full components/pages without developer oversight**  
+
+---
+
+## **📂 Project Structure & Codebase Management**  
+✅ **Folder Structure Best Practices**  
+```
+src/
+ ├── modules/        # All feature-based modules
+ │   ├── auth/       # Authentication module
+ │   ├── patients/   # Patient management module
+ │   ├── appointments/
+ │   ├── prescriptions/
+ │   ├── invoices/
+ │   ├── settings/
+ │   ├── inventory/
+ │   └── shared/     # Common reusable components (buttons, modals, etc.)
+ ├── lib/            # Firestore API & utilities
+ ├── utils/          # Helper functions
+ ├── assets/         # Icons, images
+ ├── styles/         # Global styles
+ ├── main.tsx        # Root file
+ ├── App.tsx         # Main app
+ └── index.html
+```
+✅ **File Naming Rules**  
+- **PascalCase for components** (`PatientList.tsx`)  
+- **camelCase for helper functions** (`formatDate.ts`)  
+- **index.ts inside module folders** for easy imports  
+
+✅ **Module Development Sequence (Strict Order)**  
+   1️⃣ Authentication  
+   2️⃣ Settings  
+   3️⃣ Patient Management  
+   4️⃣ Appointments  
+   5️⃣ Prescriptions  
+   6️⃣ Invoices  
+   7️⃣ Inventory  
+
+❌ **AI cannot reorder or auto-generate module dependencies.**  
+
+---
+
+## **🎨 UI & Styling Rules (ShadCN UI + Phosphor Icons)**  
+✅ **Design Consistency Guidelines**  
+- **Font:** Use **Inter** for a **clean, modern look**  
+- **Colors:** Soothing yet bright for visibility  
+  - **Backgrounds:** Light grayish blue tones  
+  - **Primary Colors:** Soft but noticeable (**Sky Blue, Warm Green**)  
+  - **Accents:** Deep blue, vibrant purple for highlights  
+  - **Text:** Dark gray (#333) for readability  
+- **Animations:** Subtle transitions, **fade-ins, slide effects, hover interactions**  
+- **Spacing & Layout:**  
+  - Proper **padding/margin** (no clutter)  
+  - **Consistent alignment across modules**  
+
+✅ **Component & Design Consistency Rules**  
+- **All modules must have a unified look**  
+  - Buttons, modals, form fields, and table designs must match  
+- **Use shared UI components whenever possible**  
+- **All modals must have similar structure & behavior**  
+- **Icons must come from Phosphor Icons**  
+- **Forms must have proper validation & UI feedback**  
+
+❌ **AI cannot:**  
+- Suggest **Tailwind classes directly** (must use ShadCN components)  
+- Apply **random colors or override theme settings**  
+- Use **MUI, Chakra, or other UI libraries**  
+
+✅ **Shared UI Components (Must Be Used Across Modules)**  
+- **`<AppButton />`** → Unified button styles  
+- **`<AppModal />`** → Standardized modal design  
+- **`<InputField />`** → Consistent form inputs  
+- **`<AppTable />`** → Standard table format  
+
+---
+
+## **🔥 Firebase & Backend Rules**  
+✅ **Firestore Best Practices**  
+- **Firestore queries must be in `lib/firebase.ts`**  
+- **Only indexed queries (no full collection reads)**  
+- **Firestore security rules must be manually reviewed**  
+
+❌ **AI cannot:**  
+- Change **Firestore to SQL/MongoDB**  
+- Write **Firestore queries inside components**  
+- Auto-generate **Firestore security rules**  
+
+---
+
+## **⚡ Code Quality & Performance Optimization**  
+✅ **Best Practices**  
+- **Use React Query / SWR** for caching Firestore data  
+- **Use Zustand for state management (if needed)**  
+- **Keep business logic separate from UI components**  
+- **Break down large components into smaller, reusable ones**  
+- **Lazy-load routes when necessary**  
+
+✅ **AI can assist in:**  
+- Optimizing performance (`useMemo`, dependency arrays in `useEffect`)  
+- Removing duplicate code  
+- Improving readability  
+
+❌ **AI cannot:**  
+- Over-refactor logic into unnecessary abstractions  
+- Modify event-handling logic (e.g., button clicks, form submissions)  
+- Auto-generate TypeScript types (must be manually reviewed)  
+
+---
+
+## **📊 Scaling Codebase – AI Must Follow Large Project Guidelines**  
+✅ **Scalability Rules**  
+- **Track AI-generated changes in Git before applying suggestions**  
+- **Ensure all components follow unified design principles**  
+- **Avoid AI making structural changes in large files**  
+
+---
+
+## **📋 AI-Powered Project Tracking (Project Manager Mode)**  
+✅ **AI must track:**  
+- **Completed & pending modules**  
+- **Code inconsistencies**  
+- **Feature progress**  
+
+✅ **AI updates `PROJECT_STATUS.md`, but does not modify features.**  
+
+---
+
+## **📋 Example `PROJECT_STATUS.md` (AI Must Update This, Not Modify Code Directly)**  
+```md
+# Clinic Management Software - Project Status
+
+## ✅ Completed Modules  
+- [x] Authentication Module  
+- [x] Settings Module  
+
+## 🛠 In Progress  
+- [ ] Patient Management Module (Frontend done, needs Firestore integration)  
+
+## 🚀 Next Up  
+- Appointment Module  
+
+## ❗ Pending Tasks  
+- Firestore security rules  
+- Invoice PDF generation  
+- UI animations for modals and buttons  
+```
+❌ **AI must NEVER modify code based on assumptions—it should only update this status.**  
+
+---
+
+## **🎯 Final Summary of AI Rules & Best Practices**  
+✅ **AI enhances development but NEVER takes control**  
+✅ **All modules must follow the same UI look & feel**  
+✅ **Strict development order: Authentication → Settings → Patients → Appointments → Prescriptions → Invoices → Inventory**  
+✅ **Firestore queries centralized in `lib/firebase.ts`**  
+✅ **ShadCN UI, Phosphor Icons, Inter Font, soothing but clear colors**  
+✅ **Animations must be smooth, modals & tables must be standardized**  
+✅ **AI tracks project progress but does not auto-modify features**  
