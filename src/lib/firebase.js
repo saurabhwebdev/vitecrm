@@ -4,13 +4,13 @@ import { getFirestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBqi8UCwTEvKqS_6-kEdkXecqx1cPArwYI",
-  authDomain: "crmvite.firebaseapp.com",
-  projectId: "crmvite",
-  storageBucket: "crmvite.firebasestorage.app",
-  messagingSenderId: "21186237245",
-  appId: "1:21186237245:web:dae8602d2473e96ce8eb54",
-  measurementId: "G-4K1RVR0TXN"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
