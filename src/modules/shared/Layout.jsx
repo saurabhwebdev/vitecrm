@@ -13,11 +13,13 @@ import {
   Heart,
   GithubLogo,
   Globe,
+  X,
 } from 'phosphor-react';
 import { auth } from '../../lib/firebase';
 import { signOut } from 'firebase/auth';
 import ClinicLogo from '../../assets/icons/ClinicLogo';
 import useClinicSettings from '../../hooks/useClinicSettings';
+import ExportButton from './ExportButton';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -59,20 +61,25 @@ const Layout = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Top Navigation Bar */}
-      <div className="fixed inset-x-0 top-0 z-50 bg-white shadow-md">
+      <div className="fixed inset-x-0 top-0 z-50 bg-white border-b border-gray-100">
         {/* Desktop Navigation */}
-        <div className="h-16 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="h-16 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="flex items-center justify-between h-full">
             {/* Logo and Brand */}
             <div className="flex items-center gap-3">
-              <ClinicLogo size={28} className="flex-shrink-0" />
-              <h1 className="text-lg font-semibold bg-gradient-to-r from-primary-600 to-primary-500 bg-clip-text text-transparent truncate hidden sm:block">
-                {loading ? 'Loading...' : settings?.clinicName || 'Clinic CRM'}
-              </h1>
+              <div className="flex items-center p-1.5 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600">
+                <ClinicLogo size={24} className="text-white" />
+              </div>
+              <div className="hidden sm:block">
+                <h1 className="text-lg font-semibold text-gray-900">
+                  {loading ? 'Loading...' : settings?.clinicName || 'Clinic CRM'}
+                </h1>
+                <p className="text-xs text-gray-500">Healthcare Management</p>
+              </div>
             </div>
 
             {/* Desktop Menu */}
-            <nav className="hidden md:flex items-center space-x-2">
+            <nav className="hidden md:flex items-center space-x-3">
               {navigation.map((item) => {
                 const isActive = location.pathname === item.href;
                 return (
@@ -80,53 +87,64 @@ const Layout = ({ children }) => {
                     key={item.name}
                     to={item.href}
                     className={`
-                      flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                      group flex flex-col items-center px-4 py-2 rounded-xl text-sm font-medium 
+                      transition-all duration-200 min-w-[5rem]
                       ${isActive
-                        ? 'bg-primary-50 text-primary-600 shadow-sm'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-primary-600'}
-                      transform hover:scale-[1.02] active:scale-[0.98]
+                        ? 'bg-primary-50/70 text-primary-600 ring-1 ring-primary-100'
+                        : 'text-gray-600 hover:bg-gray-50/70 hover:text-primary-600'}
                     `}
                   >
                     <item.icon 
                       weight={isActive ? "fill" : "regular"} 
-                      className="w-5 h-5"
+                      className={`
+                        w-5 h-5 mb-1 transition-transform duration-200
+                        ${isActive ? 'scale-110' : 'group-hover:scale-110'}
+                      `}
                     />
-                    <span className="ml-2">{item.name}</span>
+                    <span className="text-xs font-medium">{item.name}</span>
                   </Link>
                 );
               })}
             </nav>
 
             {/* Right Section */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {/* Sign Out Button (Desktop) */}
               <button
                 onClick={handleSignOut}
-                className="hidden md:flex items-center px-3 py-2 text-sm font-medium text-gray-600 
-                  rounded-lg transition-all duration-200 hover:bg-red-50 hover:text-red-600
-                  transform hover:scale-[1.02] active:scale-[0.98]"
+                className="hidden md:flex flex-col items-center px-4 py-2 text-sm font-medium 
+                  text-gray-600 rounded-xl transition-all duration-200 hover:bg-red-50 
+                  hover:text-red-600 min-w-[5rem] group"
               >
-                <SignOut className="w-5 h-5" />
-                <span className="ml-2">Sign Out</span>
+                <SignOut className="w-5 h-5 mb-1 transition-transform duration-200 group-hover:scale-110" />
+                <span className="text-xs font-medium">Sign Out</span>
               </button>
 
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden rounded-lg p-2 text-gray-600 hover:bg-gray-50 transition-colors"
+                className="md:hidden rounded-xl p-2 text-gray-600 hover:bg-gray-50 
+                  transition-all duration-200 hover:scale-105"
               >
-                <List className="w-6 h-6" />
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <List className="w-6 h-6" />
+                )}
               </button>
             </div>
           </div>
         </div>
 
         {/* Mobile Navigation Menu */}
-        <div className={`
-          md:hidden bg-white border-t border-gray-100 overflow-hidden transition-all duration-300 ease-in-out
-          ${isMobileMenuOpen ? 'max-h-screen' : 'max-h-0'}
-        `}>
-          <nav className="px-4 py-2 space-y-1">
+        <div 
+          className={`
+            md:hidden bg-white border-t border-gray-100 overflow-hidden 
+            transition-all duration-300 ease-in-out
+            ${isMobileMenuOpen ? 'max-h-[32rem] shadow-lg' : 'max-h-0'}
+          `}
+        >
+          <nav className="px-4 py-3 grid grid-cols-3 gap-2">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
               return (
@@ -135,28 +153,33 @@ const Layout = ({ children }) => {
                   to={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`
-                    flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                    flex flex-col items-center px-3 py-3 rounded-xl text-sm
+                    transition-all duration-200
                     ${isActive
-                      ? 'bg-primary-50 text-primary-600'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-primary-600'}
+                      ? 'bg-primary-50/70 text-primary-600 ring-1 ring-primary-100'
+                      : 'text-gray-600 hover:bg-gray-50/70 hover:text-primary-600'}
                   `}
                 >
                   <item.icon 
                     weight={isActive ? "fill" : "regular"} 
-                    className="w-5 h-5"
+                    className={`
+                      w-6 h-6 mb-1 transition-transform duration-200
+                      ${isActive ? 'scale-110' : ''}
+                    `}
                   />
-                  <span className="ml-2">{item.name}</span>
+                  <span className="text-xs font-medium text-center">{item.name}</span>
                 </Link>
               );
             })}
             {/* Mobile Sign Out Button */}
             <button
               onClick={handleSignOut}
-              className="w-full flex items-center px-3 py-2 text-sm font-medium text-red-600 
-                rounded-lg transition-all duration-200 hover:bg-red-50"
+              className="flex flex-col items-center px-3 py-3 text-sm
+                text-red-600 rounded-xl transition-all duration-200 
+                hover:bg-red-50/70 col-span-3"
             >
-              <SignOut className="w-5 h-5" />
-              <span className="ml-2">Sign Out</span>
+              <SignOut className="w-6 h-6 mb-1" />
+              <span className="text-xs font-medium">Sign Out</span>
             </button>
           </nav>
         </div>
@@ -172,60 +195,55 @@ const Layout = ({ children }) => {
       {/* Footer */}
       <footer className="mt-auto bg-white border-t border-gray-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          {/* Footer Content */}
-          <div className="py-8">
-            {/* Top Section */}
-            <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
+          <div className="py-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               {/* Logo and Copyright */}
-              <div className="flex items-center space-x-2">
-                <ClinicLogo size={24} className="text-primary-600" />
-                <span className="text-sm text-gray-600">
-                  © {new Date().getFullYear()} {settings?.clinicName || 'Clinic CRM'}. All rights reserved.
-                </span>
+              <div className="flex items-center gap-3">
+                <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600">
+                  <ClinicLogo size={20} className="text-white" />
+                </div>
+                <div className="text-sm text-gray-500">
+                  © {new Date().getFullYear()} {settings?.clinicName || 'Clinic CRM'}
+                </div>
               </div>
 
-              {/* Social Links */}
-              <div className="flex items-center space-x-4">
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-primary-600 transition-colors"
-                >
-                  <GithubLogo weight="fill" className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://website.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-primary-600 transition-colors"
-                >
-                  <Globe weight="fill" className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <div className="my-4 border-t border-gray-100" />
-
-            {/* Bottom Section */}
-            <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
-              {/* Links */}
-              <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+              {/* Center Links */}
+              <div className="flex flex-wrap justify-center gap-6">
                 {footerLinks.map((link) => (
                   <Link
                     key={link.name}
                     to={link.href}
-                    className="text-sm text-gray-500 hover:text-primary-600 transition-colors"
+                    className="text-sm text-gray-500 hover:text-primary-600 transition-all duration-200"
                   >
                     {link.name}
                   </Link>
                 ))}
-              </nav>
+              </div>
 
-              {/* Made with Love */}
-              <div className="flex items-center text-sm text-gray-500">
-                Made with <Heart weight="fill" className="w-4 h-4 mx-1 text-red-500" /> by Your Team
+              {/* Right Section */}
+              <div className="flex items-center gap-4">
+                <ExportButton />
+                <div className="flex items-center gap-3">
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-primary-600 transition-all duration-200"
+                  >
+                    <GithubLogo weight="fill" className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://website.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-primary-600 transition-all duration-200"
+                  >
+                    <Globe weight="fill" className="w-5 h-5" />
+                  </a>
+                  <div className="text-xs text-gray-400 flex items-center">
+                    <Heart weight="fill" className="w-3.5 h-3.5 text-red-400 mx-1" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

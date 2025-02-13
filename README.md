@@ -45,6 +45,32 @@ A modern, full-featured clinic management system built with React, Vite, and Fir
 - Working hours setup
 - Customizable preferences
 
+### 🔄 Data Export
+- Excel export functionality
+- Multi-sheet workbook
+- Comprehensive data export
+- Formatted data output
+
+## 🎨 UI/UX Features
+
+### Modern Navigation
+- Clean, minimal design
+- Icon-based navigation
+- Smooth transitions and animations
+- Mobile-responsive layout
+
+### Consistent Design Language
+- Unified color scheme
+- Consistent spacing and typography
+- Intuitive interface elements
+- Responsive components
+
+### Enhanced User Experience
+- Improved navigation layout
+- Better mobile accessibility
+- Streamlined footer design
+- Optimized component spacing
+
 ## 🚀 Tech Stack
 
 - **Frontend Framework:** React 18 with Vite
@@ -54,6 +80,7 @@ A modern, full-featured clinic management system built with React, Vite, and Fir
 - **Icons:** Phosphor Icons
 - **Forms:** React Hook Form
 - **Animations:** Tailwind CSS transitions
+- **Data Export:** XLSX
 
 ## 📋 Prerequisites
 
