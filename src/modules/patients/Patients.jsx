@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, MagnifyingGlass, PencilSimple, Trash } from 'phosphor-react';
+import { Plus, MagnifyingGlass, PencilSimple, Trash, Database } from 'phosphor-react';
 import { collection, query, orderBy, where, deleteDoc, doc } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { db } from '../../lib/firebase';
@@ -9,6 +9,7 @@ import Input from '../shared/Input';
 import AddPatientModal from './AddPatientModal';
 import { useNavigate } from 'react-router-dom';
 import useClinicId from '../../hooks/useClinicId';
+import { addSamplePatients } from '../../utils/seedPatients';
 
 const Patients = () => {
   const { clinicId, loading: clinicLoading } = useClinicId();
@@ -75,6 +76,25 @@ const Patients = () => {
     navigate(`/patients/${patientId}`);
   };
 
+  const handleAddSamplePatients = async () => {
+    try {
+      if (!clinicId) {
+        showToast.error('Clinic information not available');
+        return;
+      }
+
+      const result = await addSamplePatients(clinicId);
+      if (result.success) {
+        showToast.success(result.message);
+      } else {
+        showToast.error(result.message);
+      }
+    } catch (error) {
+      console.error('Error adding sample patients:', error);
+      showToast.error('Failed to add sample patients');
+    }
+  };
+
   if (error) {
     console.error('Error loading patients:', error);
     return (
@@ -101,10 +121,21 @@ const Patients = () => {
             Manage your patient records and information
           </p>
         </div>
-        <Button onClick={() => setIsAddModalOpen(true)}>
-          <Plus className="w-5 h-5 mr-2" />
-          Add Patient
-        </Button>
+        <div className="flex gap-3">
+          <button
+            onClick={handleAddSamplePatients}
+            className="flex items-center px-4 py-2 text-sm font-medium text-gray-600 
+              bg-white border border-gray-300 rounded-lg hover:bg-gray-50 
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          >
+            <Database className="w-5 h-5 mr-2" />
+            Add Sample Data
+          </button>
+          <Button onClick={() => setIsAddModalOpen(true)}>
+            <Plus className="w-5 h-5 mr-2" />
+            Add Patient
+          </Button>
+        </div>
       </div>
 
       {/* Search Bar */}
